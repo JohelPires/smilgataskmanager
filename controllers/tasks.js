@@ -1,9 +1,15 @@
+let { data } = require('../tempdata')
+
 const getTasks = (req, res) => {
-  res.send('List of all tasks')
+  res.json(data)
+}
+
+const getTask = (req, res) => {
+  res.json({ id: req.params.id })
 }
 
 const addTask = (req, res) => {
-  res.send('Adding task')
+  res.json(req.body)
 }
 
 const updateTask = (req, res) => {
@@ -14,4 +20,4 @@ const deleteTask = (req, res) => {
   res.send('deleting task')
 }
 
-module.exports = { getTasks, addTask, updateTask, deleteTask }
+module.exports = { getTasks, getTask, addTask, updateTask, deleteTask }
