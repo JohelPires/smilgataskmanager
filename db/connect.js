@@ -1,2 +1,10 @@
-const connectionString =
-  'mongodb+srv://johel:<password>@cluster0.ohf6ki4.mongodb.net/?retryWrites=true&w=majority'
+const mongoose = require('mongoose')
+
+const connectDB = (url) => {
+  return mongoose.set('strictQuery', false).connect(url)
+}
+
+// .then(() => console.log('Connected to DataBase'))
+// .catch((err) => console.log(err))
+
+module.exports = connectDB
