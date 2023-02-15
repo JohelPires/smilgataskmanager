@@ -5,7 +5,7 @@ const Task = require('../models/task')
 const getTasks = async (req, res) => {
   try {
     const allTasks = await Task.find({})
-    res.status(201).json({ allTasks })
+    res.status(201).json({ Length: allTasks.length, allTasks })
   } catch (error) {
     res.status(500).json({ msg: error })
   }
@@ -32,12 +32,28 @@ const addTask = async (req, res) => {
   }
 }
 
-const updateTask = (req, res) => {
-  res.send('updating task')
+const deleteTask = async (req, res) => {
+  try {
+    const task = await Task.findOneAndDelete({ _id: req.params.id })
+    if (!task) {
+      res.status(404).json({ msg: 'Task not found' })
+    }
+    res.status(200).json({ task })
+  } catch (error) {
+    res.status(500).json({ error })
+  }
 }
 
-const deleteTask = (req, res) => {
-  res.send('deleting task')
+const updateTask = async (req, res) => {
+  try {
+    const task = await Task.updateOne({ _id: req.params.id }, req.body)
+    if (!task) {
+      res.status(404).json({ msg: 'Task not found' })
+    }
+    res.status(200).json({ task })
+  } catch (error) {
+    res.status(500).json({ error })
+  }
 }
 
 module.exports = { getTasks, getTask, addTask, updateTask, deleteTask }
