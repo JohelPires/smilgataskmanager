@@ -1,15 +1,35 @@
-let { data } = require('../tempdata')
+// let { data } = require('../tempdata')
+const task = require('../models/task')
+const Task = require('../models/task')
 
-const getTasks = (req, res) => {
-  res.json(data)
+const getTasks = async (req, res) => {
+  try {
+    const allTasks = await Task.find({})
+    res.status(201).json({ allTasks })
+  } catch (error) {
+    res.status(500).json({ msg: error })
+  }
 }
 
-const getTask = (req, res) => {
-  res.json({ id: req.params.id })
+const getTask = async (req, res) => {
+  try {
+    const task = await Task.findOne({ _id: req.params.id })
+    if (!task) {
+      return res.status(404).json({ msg: 'task does not exist' })
+    }
+    res.status(201).json({ task })
+  } catch (error) {
+    res.status(500).json({ msg: error })
+  }
 }
 
-const addTask = (req, res) => {
-  res.json(req.body)
+const addTask = async (req, res) => {
+  try {
+    const task = await Task.create(req.body)
+    res.status(201).json({ task })
+  } catch (error) {
+    res.status(500).json({ msg: error })
+  }
 }
 
 const updateTask = (req, res) => {
